@@ -1,0 +1,31 @@
+CREATE DATABASE VD2;
+GO
+
+USE VD2;
+GO
+
+CREATE TABLE roles (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+GO
+
+CREATE TABLE users (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    fullname NVARCHAR(100) NOT NULL,
+    images VARCHAR(255),
+    enabled BIT NOT NULL DEFAULT 1,
+    role_id BIGINT NOT NULL,
+
+    CONSTRAINT FK_users_roles
+        FOREIGN KEY (role_id)
+        REFERENCES roles(id)
+);
+GO
+
+INSERT INTO roles (name)
+VALUES ('ROLE_USER');
+GO

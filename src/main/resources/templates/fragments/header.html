@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<header th:fragment="header">
+
+    <nav>
+
+        <a th:href="@{/}">
+            UTEShop
+        </a>
+
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+
+            <img
+                th:src="${
+                    #authentication.principal.images != null
+                    and !#strings.isEmpty(
+                        #authentication.principal.images
+                    )
+                    ? #authentication.principal.images
+                    : '/images/avatar-default.png'
+                }"
+                alt="Avatar"
+                width="40"
+                height="40"
+                style="border-radius:50%; object-fit:cover;">
+
+            <span th:text="|(${#authentication.principal.username})|"></span>
+
+            <span
+                th:text="${#authentication.principal.email}">
+                email@gmail.com
+            </span>
+
+            <span
+                th:text="${#authentication.principal.role}">
+                ROLE_USER
+            </span>
+
+            <form
+                th:action="@{/logout}"
+                method="post"
+                style="display:inline">
+
+                <button type="submit">
+                    Đăng xuất
+                </button>
+
+            </form>
+
+        </div>
+
+        <div th:unless="${#authorization.expression('isAuthenticated()')}">
+
+            <a th:href="@{/login}">
+                Đăng nhập
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+</body>
+
+</html>
